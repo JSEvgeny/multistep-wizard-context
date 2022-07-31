@@ -10,14 +10,19 @@ import Memory from "./steps/Memory";
 import Model from "./steps/Model";
 import Summary from "./steps/Summary";
 
+export interface StepProps {
+  stepKey: string;
+  next: () => void;
+}
+
 // "model", "memory", "display", "hull", "battery", "summary", "contact form"
-const stepMap = new Map<string, (props: any) => ReactElement>([
+const stepMap = new Map<string, (props: StepProps) => ReactElement>([
   ["model", (props) => <Model {...props} />],
   ["memory", (props) => <Memory {...props} />],
   ["display", (props) => <Display {...props} />],
   ["hull", (props) => <Hull {...props} />],
   ["battery", (props) => <Battery {...props} />],
-  // ["camera", (props) => <Camera {...props} />],
+  ["camera", (props) => <Camera {...props} />],
   ["summary", (props) => <Summary {...props} />],
   ["contact form", (props) => <ContactForm {...props} />],
 ]);
@@ -40,7 +45,14 @@ const StepControl = () => {
   return (
     <>
       <button onClick={previous}>Previous</button>
-      {renderStep && renderStep({ next })}
+      {renderStep ? (
+        renderStep({ stepKey: currentStepKey, next })
+      ) : (
+        <span>
+          StepMap entry is missing for stepKey: {currentStepKey} at
+          StepControl.ts:14
+        </span>
+      )}
     </>
   );
 };

@@ -1,34 +1,55 @@
 import { createQuestion } from "./utils";
 
 // Question definitions
-const modelQuestion = createQuestion<string>({
+export const modelQuestion = createQuestion<string>({
   key: "model",
-  question: "What is your device model?",
-  options: [],
+  question: "What model is your device?",
+  options: ["iPhone XS", "iPhone 13 Pro Max"],
+  optionToValueMap: new Map([
+    ["iPhone XS", "iPhone XS"],
+    ["iPhone 13 Pro Max", "iPhone 13 Pro Max"],
+  ]),
 });
 
-const memoryQuestion = createQuestion<number>({
+export const memoryQuestion = createQuestion<number>({
   key: "memory",
   question: "What is your device memory capacity?",
-  options: [],
+  options: ["128", "256", "512"],
+  optionToValueMap: new Map([
+    ["128", 128],
+    ["256", 256],
+    ["512", 512],
+  ]),
 });
 
-const displayQuestion = createQuestion<string>({
+const displayQuestion = createQuestion<boolean>({
   key: "display",
-  question: "What is your device memory capacity?",
-  options: [],
+  question: "Is display broken?",
+  options: ["Yes", "No"],
+  optionToValueMap: new Map([
+    ["Yes", true],
+    ["No", false],
+  ]),
 });
 
 const hullQuestion = createQuestion<boolean>({
   key: "hull",
   question: "Is hull bent?",
-  options: [],
+  options: ["Yes", "No"],
+  optionToValueMap: new Map([
+    ["Yes", true],
+    ["No", false],
+  ]),
 });
 
 const batteryQuestion = createQuestion<boolean>({
   key: "battery",
   question: "Is battery capacity at least 85%?",
-  options: [],
+  options: ["Yes", "No"],
+  optionToValueMap: new Map([
+    ["Yes", true],
+    ["No", false],
+  ]),
 });
 
 export const questions = [
@@ -56,7 +77,11 @@ const variantQuestions = [
   createQuestion<boolean>({
     key: "camera",
     question: "Is camera broken",
-    options: [],
+    options: ["Yes", "No"],
+    optionToValueMap: new Map([
+      ["Yes", true],
+      ["No", false],
+    ]),
   }),
 ];
 

@@ -4,12 +4,15 @@ export const createQuestion = <T>({
   key,
   question,
   options,
+  optionToValueMap,
   value,
-}: Omit<Question<T>, "toQAPair" | "toQAString">) => ({
-  key,
-  question,
-  options,
-  value,
-  toQAPair: () => ({ [key]: value }),
-  toQAString: () => `${question}: ${value}`,
-});
+}: Omit<Question<T>, "toQAPair" | "toQAString">): Readonly<Question<T>> =>
+  Object.freeze({
+    key,
+    question,
+    options,
+    optionToValueMap,
+    value,
+    toQAPair: (value: T) => ({ [key]: value }),
+    toQAString: (value: T) => `${question}: ${value}`,
+  });
