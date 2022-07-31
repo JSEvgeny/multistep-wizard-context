@@ -1,18 +1,8 @@
 import { Dispatch, ReactElement } from "react";
-import {
-  C2BActionTypes,
-  defaultQuestionKeys,
-  defaultStepKeys,
-} from "./constants";
+import { C2BActionTypes } from "./enums";
 
 // C2B context types
-export type Questions = typeof defaultQuestionKeys[number];
-export type Steps = typeof defaultStepKeys[number];
-
-export type Answers = {
-  [key in Questions]: string | number | boolean;
-};
-
+export type Answers = QA<AnswerType>;
 export interface C2BAction {
   type: C2BActionTypes;
   value: string | string[] | number | boolean | Answers;
@@ -20,7 +10,7 @@ export interface C2BAction {
 
 export interface C2BState {
   steps: readonly string[];
-  currentStep: string;
+  currentStepIndex: number;
   answers: Answers;
 }
 
@@ -34,10 +24,25 @@ export interface C2BContext {
   dispatch: Dispatch<C2BAction>;
 }
 
+export type QA<T> = Record<string, T>;
+
+export interface Question<T = AnswerType> {
+  guidance?: string[];
+  value?: T;
+  key: string;
+  question: string;
+  options: string[];
+  toQAPair: (key: string) => QA<T>;
+  toQAString: (key: string) => string;
+}
+
+// Extend if required when adding new question definition
+export type AnswerType = string | boolean | number;
+
 // useSteps hook types
 export interface UseStep {
   steps: readonly string[];
-  currentStep: string;
+  currentStepIndex: number;
   next: () => void;
   previous: () => void;
   setSteps: (steps: string[]) => void;

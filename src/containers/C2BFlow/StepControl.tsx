@@ -1,6 +1,8 @@
 import { useEffect, ReactElement } from "react";
+import { variantSteps } from "./definitions";
 import useSteps from "./hooks/useSteps";
 import Battery from "./steps/Battery";
+import Camera from "./steps/Camera";
 import ContactForm from "./steps/ContactForm";
 import Display from "./steps/Display";
 import Hull from "./steps/Hull";
@@ -15,30 +17,26 @@ const stepMap = new Map<string, (props: any) => ReactElement>([
   ["display", (props) => <Display {...props} />],
   ["hull", (props) => <Hull {...props} />],
   ["battery", (props) => <Battery {...props} />],
+  // ["camera", (props) => <Camera {...props} />],
   ["summary", (props) => <Summary {...props} />],
   ["contact form", (props) => <ContactForm {...props} />],
 ]);
 
 const StepControl = () => {
-  const { steps, currentStep, next, previous, setSteps } = useSteps();
+  const { steps, currentStepIndex, next, previous, setSteps } = useSteps();
 
-  const showBatteryQuestion = false;
+  const showCameraQuestion = true;
 
   useEffect(() => {
-    if (showBatteryQuestion) {
-      setSteps([
-        "model",
-        "memory",
-        "display",
-        "hull",
-        "battery",
-        "summary",
-        "contact form",
-      ]);
+    if (showCameraQuestion) {
+      setSteps(variantSteps);
     }
   }, []);
 
-  const renderStep = stepMap.get(currentStep) ?? null;
+  const currentStepKey = steps[currentStepIndex];
+
+  const renderStep = stepMap.get(currentStepKey) ?? null;
+
   return (
     <>
       <button onClick={previous}>Previous</button>

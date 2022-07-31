@@ -1,27 +1,21 @@
-import {
-  createContext,
-  useReducer,
-  useMemo,
-  ReactElement,
-  Reducer,
-  Dispatch,
-} from "react";
-import {
-  C2BActionTypes,
-  defaultQuestionKeys,
-  defaultStepKeys,
-  emptyState,
-} from "../constants";
+import { createContext, useReducer, useMemo, Reducer } from "react";
+import { defaultSteps } from "../definitions";
+import { C2BActionTypes } from "../enums";
 import {
   Answers,
   C2BAction,
+  C2BContext as C2BContextType,
   C2BContextProps,
   C2BState,
-  Steps,
-  C2BContext,
 } from "../types";
 
-export const C2BContext = createContext({} as C2BContext);
+export const C2BContext = createContext({} as C2BContextType);
+
+const emptyState: C2BState = {
+  steps: defaultSteps,
+  currentStepIndex: 0,
+  answers: {} as Answers,
+};
 
 const c2bReducer: Reducer<C2BState, C2BAction> = (
   state: C2BState,
@@ -31,13 +25,17 @@ const c2bReducer: Reducer<C2BState, C2BAction> = (
     case C2BActionTypes.SET_STEPS:
       const newSteps = action.value as string[];
 
-      return { ...state, steps: newSteps, currentStep: newSteps[0] };
+      return { ...state, steps: newSteps, currentStepIndex: 0 };
     case C2BActionTypes.SET_CURRENT_STEP:
-      return { ...state, currentStep: action.value as Steps };
+      const newCurrentStepIndex = action.value as number;
+
+      return { ...state, currentStepIndex: newCurrentStepIndex };
     case C2BActionTypes.SET_ANSWER:
+      const newAnswer = action.value as Answers;
+
       return {
         ...state,
-        answers: { ...state.answers, ...(action.value as Answers) },
+        answers: { ...state.answers, ...newAnswer },
       };
 
     default:

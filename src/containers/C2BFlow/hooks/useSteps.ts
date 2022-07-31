@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import { C2BActionTypes } from "../constants";
+import { C2BActionTypes } from "../enums";
 import { UseStep } from "../types";
 import useC2BContext from "./useC2BContext";
 
 const useSteps = (): UseStep => {
   const { state, dispatch } = useC2BContext();
-  const { steps, currentStep } = state;
+  const { steps, currentStepIndex } = state;
 
   const _setStep = useCallback(
     (index: number) => {
@@ -17,23 +17,19 @@ const useSteps = (): UseStep => {
 
       dispatch({
         type: C2BActionTypes.SET_CURRENT_STEP,
-        value: steps[index],
+        value: index,
       });
     },
     [steps]
   );
 
   const next = useCallback(() => {
-    const currentStepIndex = steps.indexOf(currentStep);
-
     _setStep(currentStepIndex + 1);
-  }, [steps, currentStep]);
+  }, [steps, currentStepIndex]);
 
   const previous = useCallback(() => {
-    const currentStepIndex = steps.indexOf(currentStep);
-
     _setStep(currentStepIndex - 1);
-  }, [steps, currentStep]);
+  }, [steps, currentStepIndex]);
 
   const setSteps = useCallback((steps: string[]) => {
     dispatch({
@@ -42,7 +38,7 @@ const useSteps = (): UseStep => {
     });
   }, []);
 
-  return { steps, currentStep, next, previous, setSteps };
+  return { steps, currentStepIndex, next, previous, setSteps };
 };
 
 export default useSteps;
