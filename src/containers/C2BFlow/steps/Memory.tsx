@@ -15,6 +15,12 @@ const Memory = ({ next }: MemoryProps) => {
 
     if (!typedValue) return;
 
+    const valueToOption = new Map<number, string>(
+      [...optionToValueMap].map((e) => e.reverse() as [number, string])
+    ) as Map<number, string>;
+
+    console.log(memoryQuestion.toQAString(valueToOption.get(typedValue) ?? ""));
+
     setAnswer(toQAPair(typedValue));
     next();
   };

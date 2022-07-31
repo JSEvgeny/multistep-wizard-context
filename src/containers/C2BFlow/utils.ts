@@ -14,5 +14,5 @@ export const createQuestion = <T>({
     optionToValueMap,
     value,
     toQAPair: (value: T) => ({ [key]: value }),
-    toQAString: (value: T) => `${question}: ${value}`,
+    toQAString: (option: string) => `${question}: ${option}`,
   });

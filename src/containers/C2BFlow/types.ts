@@ -34,7 +34,7 @@ export interface Question<T = AnswerType> {
   options: string[];
   optionToValueMap: Map<string, T>;
   toQAPair: (value: T) => QA<T>;
-  toQAString: (value: T) => string;
+  toQAString: (option: string) => string;
 }
 
 // Extend if required when adding new question definition
