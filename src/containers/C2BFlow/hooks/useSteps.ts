@@ -1,14 +1,7 @@
 import { useCallback } from "react";
-import { C2BActionTypes } from "../context/c2b.context";
+import { C2BActionTypes } from "../constants";
+import { UseStep } from "../types";
 import useC2BContext from "./useC2BContext";
-
-interface UseStep {
-  steps: readonly string[];
-  currentStep: string;
-  next: () => void;
-  previous: () => void;
-  setSteps: (steps: string[]) => void;
-}
 
 const useSteps = (): UseStep => {
   const { state, dispatch } = useC2BContext();

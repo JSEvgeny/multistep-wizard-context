@@ -6,57 +6,20 @@ import {
   Reducer,
   Dispatch,
 } from "react";
-
-const questionKeys = ["model", "memory", "display", "hull", "battery"] as const;
-const stepKeys = [
-  "model",
-  "memory",
-  "display",
-  "hull",
-  // "battery",
-  "summary",
-  "contact form",
-] as const;
-
-export type Questions = typeof questionKeys[number];
-export type Steps = typeof stepKeys[number];
-
-type Answers = {
-  [key in Questions]: string | number | boolean;
-};
-
-export enum C2BActionTypes {
-  SET_STEPS,
-  SET_CURRENT_STEP,
-  SET_ANSWER,
-}
-
-interface C2BAction {
-  type: C2BActionTypes;
-  value: string | string[] | number | boolean | Answers;
-}
-
-interface C2BState {
-  steps: readonly string[];
-  currentStep: string;
-  answers: Answers;
-}
-
-const emptyState: C2BState = {
-  steps: stepKeys,
-  currentStep: stepKeys[0],
-  answers: {} as Answers,
-};
-
-interface C2BContextProps {
-  children: ReactElement | ReactElement[];
-  initialState: C2BState;
-}
-
-interface C2BContext {
-  state: C2BState;
-  dispatch: Dispatch<C2BAction>;
-}
+import {
+  C2BActionTypes,
+  defaultQuestionKeys,
+  defaultStepKeys,
+  emptyState,
+} from "../constants";
+import {
+  Answers,
+  C2BAction,
+  C2BContextProps,
+  C2BState,
+  Steps,
+  C2BContext,
+} from "../types";
 
 export const C2BContext = createContext({} as C2BContext);
 
